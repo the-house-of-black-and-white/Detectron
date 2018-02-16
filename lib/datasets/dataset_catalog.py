@@ -185,5 +185,18 @@ DATASETS = {
             _DATA_DIR + '/VOC2012/annotations/voc_2012_trainval.json',
         DEVKIT_DIR:
             _DATA_DIR + '/VOC2012/VOCdevkit2012'
+    },
+    'widerface_train': {
+        IM_DIR:
+            _DATA_DIR + '/widerface/WIDER_train/images',
+        ANN_FN:
+            _DATA_DIR + '/widerface/coco/coco/widerface_train.json'
+    },
+    'widerface_val': {
+        IM_DIR:
+            _DATA_DIR + '/widerface/WIDER_val/images',
+        ANN_FN:
+            _DATA_DIR + '/widerface/coco/widerface_val.json'
     }
+
 }
