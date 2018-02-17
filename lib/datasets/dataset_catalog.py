@@ -190,7 +190,7 @@ DATASETS = {
         IM_DIR:
             _DATA_DIR + '/widerface/WIDER_train/images',
         ANN_FN:
-            _DATA_DIR + '/widerface/coco/coco/widerface_train.json'
+            _DATA_DIR + '/widerface/coco/widerface_train.json'
     },
     'widerface_val': {
         IM_DIR:
