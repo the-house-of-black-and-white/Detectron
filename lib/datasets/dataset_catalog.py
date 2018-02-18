@@ -197,6 +197,17 @@ DATASETS = {
             _DATA_DIR + '/widerface/WIDER_val/images',
         ANN_FN:
             _DATA_DIR + '/widerface/coco/widerface_val.json'
+    },
+    'fddb': {
+        IM_DIR:
+            _DATA_DIR + '/fddb/originalPics',
+        ANN_FN:
+            _DATA_DIR + '/fddb/coco/FDDB.json'
+    },
+    'afw': {
+        IM_DIR:
+            _DATA_DIR + '/afw/testimages',
+        ANN_FN:
+            _DATA_DIR + '/afw/coco/AFW.json'
     }
-
 }

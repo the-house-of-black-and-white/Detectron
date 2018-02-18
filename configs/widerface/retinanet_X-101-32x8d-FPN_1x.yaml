@@ -1,6 +1,6 @@
 MODEL:
   TYPE: retinanet
-  CONV_BODY: FPN.add_fpn_ResNet50_conv5_body
+  CONV_BODY: FPN.add_fpn_ResNet101_conv5_body
   NUM_CLASSES: 2
 NUM_GPUS: 1
 SOLVER:
@@ -17,6 +17,11 @@ FPN:
   RPN_MIN_LEVEL: 3
   COARSEST_STRIDE: 128
   EXTRA_CONV_LEVELS: True
+RESNETS:
+  STRIDE_1X1: False  # default True for MSRA; False for C2 or Torch models
+  TRANS_FUNC: bottleneck_transformation
+  NUM_GROUPS: 32
+  WIDTH_PER_GROUP: 8
 RETINANET:
   RETINANET_ON: True
   NUM_CONVS: 4
@@ -26,13 +31,13 @@ RETINANET:
   LOSS_GAMMA: 2.0
   LOSS_ALPHA: 0.25
 TRAIN:
-  WEIGHTS: https://s3-us-west-2.amazonaws.com/detectron/36768636/12_2017_baselines/retinanet_R-50-FPN_1x.yaml.08_29_48.t4zc9clc/output/train/coco_2014_train:coco_2014_valminusminival/retinanet/model_final.pkl
-  DATASETS: ('widerface_train',)
+  WEIGHTS: https://s3-us-west-2.amazonaws.com/detectron/36769563/12_2017_baselines/retinanet_X-101-32x8d-FPN_1x.yaml.08_42_05.06JTK6vJ/output/train/coco_2014_train:coco_2014_valminusminival/retinanet/model_final.pkl
+  DATASETS: ('widerface_train', 'widerface_val', )
   SCALES: (800,)
   MAX_SIZE: 1333
   RPN_STRADDLE_THRESH: -1  # default 0
 TEST:
-  DATASETS: ('widerface_val', 'fddb',)
+  DATASETS: ('fddb',)
   SCALES: (800,)
   MAX_SIZE: 1333
   NMS: 0.5
