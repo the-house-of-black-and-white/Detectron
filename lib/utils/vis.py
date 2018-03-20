@@ -200,7 +200,7 @@ def vis_keypoints(img, kps, kp_thresh=2, alpha=0.7):
 
 def vis_one_image_opencv(
         im, boxes, segms=None, keypoints=None, thresh=0.9, kp_thresh=2,
-        show_box=False, dataset=None, show_class=False):
+        show_box=False, dataset=None, show_class=False, bbox_thickness=1):
     """Constructs a numpy array with the detections visualized."""
 
     if isinstance(boxes, list):
@@ -228,7 +228,7 @@ def vis_one_image_opencv(
         # show box (off by default)
         if show_box:
             im = vis_bbox(
-                im, (bbox[0], bbox[1], bbox[2] - bbox[0], bbox[3] - bbox[1]))
+                im, (bbox[0], bbox[1], bbox[2] - bbox[0], bbox[3] - bbox[1]), thick=bbox_thickness)
 
         # show class (off by default)
         if show_class:
