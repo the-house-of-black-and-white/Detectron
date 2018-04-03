@@ -16,7 +16,7 @@ WORKDIR /cocoapi/PythonAPI
 RUN make install
 
 # Clone the Detectron repository
-RUN git clone -b widerface --single-branch https://github.com/the-house-of-black-and-white/Detectron.git /detectron
+RUN git clone -b crowdAIMappingChallenge --single-branch https://github.com/the-house-of-black-and-white/Detectron.git /detectron
 
 # Set up Python modules
 WORKDIR /detectron/lib
