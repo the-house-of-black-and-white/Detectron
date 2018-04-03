@@ -209,5 +209,30 @@ DATASETS = {
             _DATA_DIR + '/afw/testimages',
         ANN_FN:
             _DATA_DIR + '/afw/coco/AFW.json'
+    },
+    'crowdAIMappingChallenge_train': {
+        IM_DIR:
+            _DATA_DIR + '/crowdAIMappingChallenge/train/images',
+        ANN_FN:
+            _DATA_DIR + '/crowdAIMappingChallenge/train/annotation.json'
+    },
+    'crowdAIMappingChallenge_val': {
+        IM_DIR:
+            _DATA_DIR + '/crowdAIMappingChallenge/val/images',
+        ANN_FN:
+            _DATA_DIR + '/crowdAIMappingChallenge/val/annotation.json'
+    },
+    'crowdAIMappingChallenge_small_train': {
+        IM_DIR:
+            _DATA_DIR + '/crowdAIMappingChallenge/train/images',
+        ANN_FN:
+            _DATA_DIR + '/crowdAIMappingChallenge/train/annotation-small.json'
+    },
+    'crowdAIMappingChallenge_small_val': {
+        IM_DIR:
+            _DATA_DIR + '/crowdAIMappingChallenge/val/images',
+        ANN_FN:
+            _DATA_DIR + '/crowdAIMappingChallenge/val/annotation-small.json'
     }
+
 }
