@@ -36,27 +36,30 @@ import yaml
 
 from caffe2.python import workspace
 
-from core.config import assert_and_infer_cfg
-from core.config import cfg
-from core.config import merge_cfg_from_cfg
-from core.config import merge_cfg_from_file
-from utils.io import cache_url
-import core.rpn_generator as rpn_engine
-import core.test_engine as model_engine
-import datasets.dummy_datasets as dummy_datasets
-import utils.c2 as c2_utils
-import utils.logging
-import utils.vis as vis_utils
+from detectron.core.config import assert_and_infer_cfg
+from detectron.core.config import cfg
+from detectron.core.config import load_cfg
+from detectron.core.config import merge_cfg_from_cfg
+from detectron.core.config import merge_cfg_from_file
+from detectron.utils.io import cache_url
+from detectron.utils.logging import setup_logging
+import detectron.core.rpn_generator as rpn_engine
+import detectron.core.test_engine as model_engine
+import detectron.datasets.dummy_datasets as dummy_datasets
+import detectron.utils.c2 as c2_utils
+import detectron.utils.vis as vis_utils
 
 c2_utils.import_detectron_ops()
+
 # OpenCL may be enabled by default in OpenCV3; disable it because it's not
 # thread safe and causes unwanted GPU memory allocations.
 cv2.ocl.setUseOpenCL(False)
 
 # infer.py
-#   --im [path/to/image.jpg]
-#   --rpn-model [path/to/rpn/model.pkl]
-#   --rpn-config [path/to/rpn/config.yaml]
+#   --im [path/to/image.jpg] \
+#   --rpn-model [path/to/rpn/model.pkl] \
+#   --rpn-cfg [path/to/rpn/config.yaml] \
+#   --output-dir [path/to/output/dir] \
 #   [model1] [config1] [model2] [config2] ...
 
 
@@ -88,7 +91,7 @@ def parse_args():
     )
     parser.add_argument(
         'models_to_run',
-        help='list of pkl, yaml pairs',
+        help='pairs of models & configs, listed like so: [pkl1] [yaml1] [pkl2] [yaml2] ...',
         default=None,
         nargs=argparse.REMAINDER
     )
@@ -105,7 +108,7 @@ def get_rpn_box_proposals(im, args):
     cfg.MODEL.RPN_ONLY = True
     cfg.TEST.RPN_PRE_NMS_TOP_N = 10000
     cfg.TEST.RPN_POST_NMS_TOP_N = 2000
-    assert_and_infer_cfg()
+    assert_and_infer_cfg(cache_urls=False)
 
     model = model_engine.initialize_model_from_cfg(args.rpn_pkl)
     with c2_utils.NamedCudaScope(0):
@@ -116,7 +119,7 @@ def get_rpn_box_proposals(im, args):
 def main(args):
     logger = logging.getLogger(__name__)
     dummy_coco_dataset = dummy_datasets.get_coco_dataset()
-    cfg_orig = yaml.load(yaml.dump(cfg))
+    cfg_orig = load_cfg(yaml.dump(cfg))
     im = cv2.imread(args.im_file)
 
     if args.rpn_pkl is not None:
@@ -137,7 +140,7 @@ def main(args):
         else:
             weights_file = cfg.TEST.WEIGHTS
         cfg.NUM_GPUS = 1
-        assert_and_infer_cfg()
+        assert_and_infer_cfg(cache_urls=False)
         model = model_engine.initialize_model_from_cfg(weights_file)
         with c2_utils.NamedCudaScope(0):
             cls_boxes_, cls_segms_, cls_keyps_ = \
@@ -189,7 +192,7 @@ def check_args(args):
 
 if __name__ == '__main__':
     workspace.GlobalInit(['caffe2', '--caffe2_log_level=0'])
-    utils.logging.setup_logging(__name__)
+    setup_logging(__name__)
     args = parse_args()
     check_args(args)
     main(args)
