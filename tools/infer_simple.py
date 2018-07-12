@@ -122,7 +122,7 @@ def main(args):
     dummy_coco_dataset = dummy_datasets.get_coco_dataset()
 
     if os.path.isdir(args.im_or_folder):
-        im_list = glob.iglob(args.im_or_folder + '/*.' + args.image_ext)
+        im_list = glob.iglob(args.im_or_folder + '**/*.' + args.image_ext)
     else:
         im_list = [args.im_or_folder]
 
